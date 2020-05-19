@@ -24,6 +24,7 @@
 # This "universal" variant seems to be internal to libHSPlasma and not used by any of the games.
 # TODO This check is very weak!
 0 leshort -1 Plasma PRP data, version %d (universal)
+!:ext prp
 
 # All other known PRP format versions, according to libHSPlasma.
 # Versions <= 5 store the PRP version in the first 4 bytes.
@@ -85,6 +86,7 @@
 # The PRP-version-to-game mappings come mostly from libHSPlasma PRP/plPageInfo.cpp.
 0 name plasma_prp
 >0 leshort x Plasma PRP data, version %d
+!:ext prp
 >>0 lelong 2 (Plasma 2.0.56?)
 >>>4 use plasma_prp_location
 >>0 lelong 5 (Uru offline, Until Uru, etc.)
@@ -120,6 +122,7 @@
 >>>>&0 uleshort x \b.%u
 >>>>>&0 ulelong x \b, page ID %#x
 >>>>>>&0 uleshort x \b, location flags %#x
+!:ext prd
 
 # .age and .fni are simple text files.
 # These patterns recognize some common properties/commands from each of the two file types.
@@ -127,10 +130,12 @@
 # which is why the description specifically points out that they are unencrypted.
 
 0 regex/10/l (StartDateTime|DayLength|MaxCapacity|LingerTime|SequencePrefix|ReleaseVersion|Page) Plasma unencrypted .age configuration text
+!:ext age
 >0 regex/10/l Page=
 >>&0 regex/1/l [^\r\n]+ \b, first page %s
 
 0 regex/10/l Graphics\.Renderer\. Plasma unencrypted .fni configuration text
+!:ext fni
 
 # Plasma fonts (.p2f).
 # These do not have a magic number,
@@ -170,6 +175,7 @@
 # Output the font name and basic metadata.
 0 name plasma_p2f_font
 >0 string >\0 Plasma .p2f font data, name %s
+!:ext p2f
 >>256 ubyte x \b, size %u
 >>>257 ulelong &0x1 \b, bold
 >>>257 ulelong &0x2 \b, italic
