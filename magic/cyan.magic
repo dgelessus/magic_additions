@@ -46,8 +46,9 @@
 # which requires us to perform a heuristic check below slightly differently.
 >2 uleshort 0
 >>0 use plasma_prp_live_check
->2 uleshort <0x501
->>0 use plasma_prp_nonlive_check
+>2 uleshort !0
+>>2 uleshort <0x501
+>>>0 use plasma_prp_nonlive_check
 0 leshort 9
 >2 uleshort <0x501
 >>0 use plasma_prp_nonlive_check
