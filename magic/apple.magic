@@ -1,0 +1,18 @@
+0 string \xa8\x9fer Mac OS 7 - 9 compressed resource data
+>8 ubelong x \b, %u bytes decompressed
+>>6 ubyte x \b, header type %u
+# All known headers are 0x12 bytes long.
+>>>4 ubeshort 0x12
+# Header type 8
+>>>>6 ubyte 8
+>>>>>14 beshort x \b, 'dcmp' (%d)
+>>>>>>12 ubyte x \b, working buffer size %u/256
+>>>>>>>13 ubyte x \b, expansion buffer size %u bytes
+# Header type 9
+>>>>6 ubyte 9
+>>>>>12 beshort x \b, 'dcmp' (%d)
+# 'dcmp' (2)-specific parameters
+>>>>>>12 beshort 2
+>>>>>>>17 ubyte &0x1 \b, custom lookup table
+>>>>>>>>16 ubyte x with %d entries
+>>>>>>>17 ubyte &0x2 \b, tagged
