@@ -16,3 +16,9 @@
 >>>>>>>17 ubyte &0x1 \b, custom lookup table
 >>>>>>>>16 ubyte x with %d entries
 >>>>>>>17 ubyte &0x2 \b, tagged
+
+# The files "checkfixlist" and "lonelist" in /System/Library/CoreServices on Mac OS X/macOS
+# are XML plists xor-"encrypted" with the 1-byte key 0x6c.
+# This string is the text '<?xml version="1.0"' in this encrypted form,
+# which is what both of these files start with.
+0 string PS\x14\x01\x00L\x1a\t\x1e\x1f\x05\x03\x02QN]B\\N Apple xor-0x6c-encrypted XML data
