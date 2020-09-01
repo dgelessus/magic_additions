@@ -17,6 +17,52 @@
 >>>>>>>>16 ubyte x with %d entries
 >>>>>>>17 ubyte &0x2 \b, tagged
 
+2 string typedstream NeXT/Apple typedstream data, big endian
+>0 use typedstream
+2 string streamtyped NeXT/Apple typedstream data, little endian
+>0 use \^typedstream
+
+# Common part of typedstream format.
+# This is written big-endian and swapped for little-endian data.
+0 name typedstream
+>0 ubyte x \b, version %d
+>0 ubyte <5
+# -127 is the tag for 2-byte integers-
+# There is also -126 for 4-byte integers,
+# and some 1-byte integers are stored directly in the tag byte.
+# We only need to handle the 2-byte case though,
+# because all system versions that are used in practice fall into that range.
+>>13 byte -127
+>>>14 ubeshort x \b, system %d
+# The first value in the file should be a shared string
+# describing the type(s) of the following value(s).
+# -124 is the "new" tag,
+# meaning that the string value is stored literally and not a backreference.
+# (This is always the case,
+# because this is the first shared string in the file.)
+>>>>16 byte -124
+>>>>>17 pstring x \b, first type %s
+# A type string "@" means that the value is an Objective-C object.
+>>>>>>17 pstring @
+# -123 is the "nil" tag.
+# (This case is unlikely - the first object usually isn't nil.)
+>>>>>>>19 byte -123 \b, value nil
+# This is the first object in the file,
+# so it always has a "new" tag.
+>>>>>>>19 byte -124
+# Next comes the object's class information.
+# This is also always "new".
+>>>>>>>>20 byte -124
+# Next comes the class name as a shared string.
+# This is also always "new"
+# (the only other shared string in the file up to here is "@",
+# which is not a valid class name).
+>>>>>>>>>21 byte -124
+>>>>>>>>>>22 pstring x \b, class %s
+# After this comes the class version as a tagged variable-length integer.
+# This could be decoded too,
+# but probably isn't interesting enough to be worth the effort.
+
 # The files "checkfixlist" and "lonelist" in /System/Library/CoreServices on Mac OS X/macOS
 # are XML plists xor-"encrypted" with the 1-byte key 0x6c.
 # This string is the text '<?xml version="1.0"' in this encrypted form,
