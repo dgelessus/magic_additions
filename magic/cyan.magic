@@ -141,35 +141,45 @@
 # These do not have a magic number,
 # but their first field is a fixed-width zero-padded 256-byte string storing the font name.
 # Because most font names are significantly shorter than 256 bytes [citation needed],
-# we assume that name byte 128 and after have to be zero,
+# we assume that name byte 64 and after have to be zero,
 # as a heuristic to avoid false positives.
 # TODO This pattern is still quite weak - we should check that the font name is printable ASCII.
-128 ulequad 0
->136 ulequad 0
->>144 ulequad 0
->>>152 ulequad 0
->>>>160 ulequad 0
->>>>>168 ulequad 0
->>>>>>176 ulequad 0
->>>>>>>184 ulequad 0
->>>>>>>>192 ulequad 0
->>>>>>>>>200 ulequad 0
->>>>>>>>>>208 ulequad 0
->>>>>>>>>>>216 ulequad 0
->>>>>>>>>>>>224 ulequad 0
->>>>>>>>>>>>>232 ulequad 0
->>>>>>>>>>>>>>240 ulequad 0
->>>>>>>>>>>>>>>248 ulequad 0
+64 ulequad 0
+>72 ulequad 0
+>>80 ulequad 0
+>>>88 ulequad 0
+>>>>96 ulequad 0
+>>>>>104 ulequad 0
+>>>>>>112 ulequad 0
+>>>>>>>120 ulequad 0
+>>>>>>>>128 ulequad 0
+>>>>>>>>>136 ulequad 0
+>>>>>>>>>>144 ulequad 0
+>>>>>>>>>>>152 ulequad 0
+>>>>>>>>>>>>160 ulequad 0
+>>>>>>>>>>>>>168 ulequad 0
+>>>>>>>>>>>>>>176 ulequad 0
+>>>>>>>>>>>>>>>184 ulequad 0
+>>>>>>>>>>>>>>>>192 ulequad 0
+>>>>>>>>>>>>>>>>>200 ulequad 0
+>>>>>>>>>>>>>>>>>>208 ulequad 0
+>>>>>>>>>>>>>>>>>>>216 ulequad 0
+>>>>>>>>>>>>>>>>>>>>224 ulequad 0
+>>>>>>>>>>>>>>>>>>>>>232 ulequad 0
+>>>>>>>>>>>>>>>>>>>>>>240 ulequad 0
+>>>>>>>>>>>>>>>>>>>>>>>248 ulequad 0
 # Byte 256 is the font size.
-# We assume that the font size is 48 or less
-# (the largest fonts that come with Uru are size 32,
-# so this should be safe enough).
->>>>>>>>>>>>>>>>256 ubyte <49
+# We assume that the font size is between 4 and 48 (inclusive).
+# The smalles fonts that come with Uru are size 6,
+# and the largest ones are size 32,
+# so this should be relatively safe.
+>>>>>>>>>>>>>>>>>>>>>>>>256 ubyte >5
+>>>>>>>>>>>>>>>>>>>>>>>>>256 ubyte <49
 # Byte 256 are the font flags.
 # Only the low two bits are used,
 # so require all higher bits to be zero.
->>>>>>>>>>>>>>>>>257 ulelong ^0xfc
->>>>>>>>>>>>>>>>>>0 use plasma_p2f_font
+>>>>>>>>>>>>>>>>>>>>>>>>>>257 ulelong ^0xfc
+>>>>>>>>>>>>>>>>>>>>>>>>>>>0 use plasma_p2f_font
 
 # If we got here, we're reasonably sure that this is actually a P2F font.
 # Output the font name and basic metadata.
