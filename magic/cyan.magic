@@ -190,10 +190,11 @@
 >>>257 ulelong &0x1 \b, bold
 >>>257 ulelong &0x2 \b, italic
 
-# MOUL resource.dat.
+# Plasma resource data,
+# as found in MOUL's resource.dat and Myst V's dat/Cursors.dat
 # This format has a proper magic number and version field,
 # so this pattern should be reliable.
-0 ulelong 0xcbbcf00d MOUL resource.dat data
+0 ulelong 0xcbbcf00d Plasma resource data
 !:ext dat
 >4 ulelong x \b, version %u
 >>4 ulelong 1
