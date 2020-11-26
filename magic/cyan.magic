@@ -189,3 +189,15 @@
 >>256 ubyte x \b, size %u
 >>>257 ulelong &0x1 \b, bold
 >>>257 ulelong &0x2 \b, italic
+
+# MOUL resource.dat.
+# This format has a proper magic number and version field,
+# so this pattern should be reliable.
+0 ulelong 0xcbbcf00d MOUL resource.dat data
+!:ext dat
+>4 ulelong x \b, version %u
+>>4 ulelong 1
+>>>8 ulelong x \b, %u files
+>>>>8 ulelong >0
+>>>>>12 pstring/l x \b, first file %s
+>>>>>>&0 ulelong x \b, %u bytes
