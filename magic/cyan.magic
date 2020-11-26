@@ -11,7 +11,7 @@
 0 string notthedroids Plasma droid-encrypted data, %s signature (MOUL)
 >12 use plasma_encrypted
 
-0 lelong 0x0D874288 Plasma AES-encrypted data, %#x signature (Myst V)
+0 lelong 0x0D874288 Plasma AES-encrypted data, 0x%x signature (Myst V)
 >4 use plasma_encrypted
 
 0 name plasma_encrypted
@@ -110,7 +110,7 @@
 # Not sure if these have any meaning outside of libHSPlasma or can even appear in PRPs on disk.
 >0 ulelong 0xffffffff \b, location state INVALID
 >0 ulelong 0 \b, location state VIRTUAL
->0 ulelong x \b, location %#x
+>0 ulelong x \b, location 0x%x
 
 # Output format of libHSPlasma's PrpPack tool.
 # Not sure if this format is used outside of libHSPlasma.
@@ -120,8 +120,8 @@
 >>&0 pstring/h x \b, page %s
 >>>&0 uleshort x \b, Plasma version %u
 >>>>&0 uleshort x \b.%u
->>>>>&0 ulelong x \b, page ID %#x
->>>>>>&0 uleshort x \b, location flags %#x
+>>>>>&0 ulelong x \b, page ID 0x%x
+>>>>>>&0 uleshort x \b, location flags 0x%x
 !:ext prd
 
 # .age and .fni are simple text files.
