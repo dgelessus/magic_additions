@@ -203,24 +203,26 @@
 >>>>>12 pstring/l x \b, first file %s
 >>>>>>&0 ulelong x \b, %u bytes
 
-# Thanks to coderjo on the Guild of Speedrunners Discord
-# for reverse-engineering the structure of the tron files.
+# Thanks to coderjo for reverse-engineering the structure of the tron files:
+# https://github.com/coderjo/Bahrometer/blob/master/tron_format.md
 # The first byte is a version number, probably
 # (same as that of Myst V's PRP files).
 0 ubyte 0x06
-# The meaning of these four bytes is not clear,
-# but they can be used to detect the format somewhat reliably,
-# because they are the same in all four .tron files.
+# These four bytes are boolean flags with known meanings
+# (see documentation linked above),
+# but in practice they always have the same fixed values
+# in all tron files from Myst V.
+# This makes them useful for detecting the tron file format somewhat reliably.
 >1 ubelong 0x01010100 Myst V perceptron data
 !:ext tron
->>5 ulelong x \b, %u input groups
->>>9 use myst_v_tron_group
-# Attempt to skip forward to the output groups,
-# because these usually have interesting name strings.
+>>5 ulelong x \b, %u input neurons
+>>>9 use myst_v_tron_neuron
+# Attempt to skip forward to the output layer,
+# because the neurons there usually have interesting name strings.
 # Because of the limits of the magic pattern format,
-# this is only possible if all input groups have no name and the same fixed size.
-# (We actually only check the first group's values
-# and assume all other grups are the same.)
+# this is only possible if all input neurons have no name and the same fixed size.
+# (We actually only check the first neuron's values
+# and assume all other neurons are the same.)
 >>>>9 uleshort 0
 >>>>>12 ulelong 268
 # Factor is the total size of the following substructure:
@@ -228,16 +230,16 @@
 # name field ((name length field) bytes)
 # type field (1 byte)
 # count field (4 bytes)
-# floats ((count field) * 4 bytes)
+# weights ((count field) * 4 bytes)
 # = 2 + (name length) + 1 + 4 + (count) * 4
 # = 2 + 0 + 1 + 4 + 268*4
 # = 1079
-# Offset is relative to end of the input groups count field.
+# Offset is relative to end of the input neurons count field.
 >>>>>>5 ulelong x
->>>>>>>&(5.l*1079) ulelong x \b, %u output groups
->>>>>>>>&0 use myst_v_tron_group
+>>>>>>>&(5.l*1079) ulelong x \b, %u output neurons
+>>>>>>>>&0 use myst_v_tron_neuron
 
-0 name myst_v_tron_group
->0 pstring/h x (first group "%s"
+0 name myst_v_tron_neuron
+>0 pstring/h x (first neuron "%s"
 >>&0 ubyte x \b, type %u
->>>&0 ulelong x \b, %u floats)
+>>>&0 ulelong x \b, %u weights)
