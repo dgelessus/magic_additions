@@ -1,0 +1,33 @@
+# SICStus Prolog saved state (.sav) or Prolog object (.po) file, as of at least version 4.3.
+# The two formats use a very similar structure and cannot be differentiated easily.
+# The header is a valid Unix shell script.
+# TODO Is it any different with SICStus versions for non-Unix systems?
+# The header consists of the following plain text lines:
+# * A shebang line for /bin/sh
+# * An exec call to a version-suffixed sicstus command
+# * The line '# META_INFO 1'
+# * Any number of plaintext metadata lines, all in the format '# NAME: "value"'. At least the following metadata information exists:
+# ** FILE: Always appears exactly once as the first metadata line. Contains the absolute path to which the file was originally written.
+# ** FR: Appears zero or more times after FILE. Each contains the name of one foreign resource that this file uses.
+# * The line '# META_INFO END'
+# * A line in the format 'version=5 archmask=0x####', where 0x#### is a hex number literal, which presumably indicates something about the target architecture and/or OS
+# This plain text header is followed by the zlib-compressed binary saved state data.
+0 string \#!\ /bin/sh\nexec\ sicstus- SICStus Prolog saved state/object
+>&0 regex/8 [A-Za-z0-9.\-_]+ for version %s
+>>&0 search/32 \n\#\ FILE: 
+>>>&0 regex/256 "[^"\r\n]*" \b, original file name %s
+
+# SWI-Prolog saved state or .qlf file, as of at least version 8.
+# The two formats are apparently the same except for the signature strings at the beginning.
+# Sadly they are complex enough that it's very hard/impossible
+# to extract anything useful using magic patterns.
+
+# Saved state files are usually not saved standalone,
+# but inside a ZIP file with a .prc extension.
+# The saved state file inside the ZIP still has a .qlf extension
+# despite having a different signature string.
+0 string SWI-Prolog\ state\ (www.swi-prolog.org)\n SWI-Prolog saved state (uncompressed)
+!:ext qlf
+
+0 string SWI-Prolog\ .qlf\ file\n SWI-Prolog .qlf file
+!:ext qlf
