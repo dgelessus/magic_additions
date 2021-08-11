@@ -12,7 +12,7 @@
 # * The line '# META_INFO END'
 # * A line in the format 'version=5 archmask=0x####', where 0x#### is a hex number literal, which presumably indicates something about the target architecture and/or OS
 # This plain text header is followed by the zlib-compressed binary saved state data.
-0 string \#!\ /bin/sh\nexec\ sicstus- SICStus Prolog saved state/object
+0 string \#!\ /bin/sh\nexec\ sicstus- SICStus Prolog saved state/object data
 >&0 regex/8 [A-Za-z0-9.\-_]+ for version %s
 >>&0 search/32 \n\#\ FILE: 
 >>>&0 regex/256 "[^"\r\n]*" \b, original file name %s
@@ -26,8 +26,8 @@
 # but inside a ZIP file with a .prc extension.
 # The saved state file inside the ZIP still has a .qlf extension
 # despite having a different signature string.
-0 string SWI-Prolog\ state\ (www.swi-prolog.org)\n SWI-Prolog saved state (uncompressed)
+0 string SWI-Prolog\ state\ (www.swi-prolog.org)\n SWI-Prolog saved state data (uncompressed)
 !:ext qlf
 
-0 string SWI-Prolog\ .qlf\ file\n SWI-Prolog .qlf file
+0 string SWI-Prolog\ .qlf\ file\n SWI-Prolog .qlf data
 !:ext qlf
