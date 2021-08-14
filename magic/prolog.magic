@@ -31,7 +31,7 @@
 # to extract anything useful using magic patterns.
 
 # Saved state files are usually not saved standalone,
-# but inside a ZIP file with a .prc extension.
+# but inside a ZIP file that has a .prc extension.
 # The saved state file inside the ZIP still has a .qlf extension
 # despite having a different signature string.
 0 string SWI-Prolog\ state\ (www.swi-prolog.org)\n SWI-Prolog saved state data (uncompressed)
