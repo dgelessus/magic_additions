@@ -9,7 +9,18 @@
 
 0 name fontconfig_cache
 >4 belong x \b, version %d
->>4 belong 7
+# Supports versions 1 through (at least) 8.
+# The first few fields seem to stay relatively stable across cache versions,
+# so it's probably safe to increment if a new version comes out.
+# There's also an older cache format with no version field,
+# which unfortunately has the same magic numbers as the versioned caches.
+# There's not much risk for confusion though,
+# because the space now used by the version number
+# was previously the size field,
+# which is usually 80 bytes or so at minimum
+# and so safely out of the range of valid version numbers.
+>>4 belong <9
+>>>4 belong >0
 # The cache file's bitness is not stored explicitly,
 # so we have to guess.
 # Try to interpret the first bitness-dependent field (file size) as 64-bit
@@ -22,10 +33,10 @@
 # If interpreting the file size as 64-bit gives a really high value,
 # then the file is probably actually 32-bit.
 # (If you have Fontconfig caches larger than 4 GiB, I'm sorry.)
->>>8 ubequad <0x100000000
->>>>0 use fontconfig_cache_64
->>>8 ubequad >0xffffffff
->>>>0 use fontconfig_cache_32
+>>>>8 ubequad <0x100000000
+>>>>>0 use fontconfig_cache_64
+>>>>8 ubequad >0xffffffff
+>>>>>0 use fontconfig_cache_32
 
 0 name fontconfig_cache_32
 >8 ubelong x \b, 32-bit, %u bytes
