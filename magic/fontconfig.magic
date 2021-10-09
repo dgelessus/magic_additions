@@ -1,0 +1,35 @@
+0 ubelong 0xfc02fc04 Fontconfig cache data, big endian, mmap
+>0 use fontconfig_cache
+0 ulelong 0xfc02fc04 Fontconfig cache data, little endian, mmap
+>0 use \^fontconfig_cache
+0 ubelong 0xfc02fc05 Fontconfig cache data, big endian, alloc
+>0 use fontconfig_cache
+0 ulelong 0xfc02fc05 Fontconfig cache data, little endian, alloc
+>0 use \^fontconfig_cache
+
+0 name fontconfig_cache
+>4 belong x \b, version %d
+>>4 belong 7
+# The cache file's bitness is not stored explicitly,
+# so we have to guess.
+# Try to interpret the first bitness-dependent field (file size) as 64-bit
+# and see if the high 32 bits are all zero.
+# If so, assume that the file is indeed 64-bit -
+# if it were 32-bit,
+# either the size or the following field would be zero
+# (depending on the endianness),
+# which should be impossible.
+# If interpreting the file size as 64-bit gives a really high value,
+# then the file is probably actually 32-bit.
+# (If you have Fontconfig caches larger than 4 GiB, I'm sorry.)
+>>>8 ubequad <0x100000000
+>>>>0 use fontconfig_cache_64
+>>>0 use fontconfig_cache_32
+
+0 name fontconfig_cache_32
+>8 ubelong x \b, 32-bit, %u bytes
+>>(12.L) string x \b, for directory %s
+
+0 name fontconfig_cache_64
+>8 ubequad x \b, 64-bit, %llu bytes
+>>(16.Q) string x \b, for directory %s
