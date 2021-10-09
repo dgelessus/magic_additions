@@ -24,7 +24,8 @@
 # (If you have Fontconfig caches larger than 4 GiB, I'm sorry.)
 >>>8 ubequad <0x100000000
 >>>>0 use fontconfig_cache_64
->>>0 use fontconfig_cache_32
+>>>8 ubequad >0xffffffff
+>>>>0 use fontconfig_cache_32
 
 0 name fontconfig_cache_32
 >8 ubelong x \b, 32-bit, %u bytes
