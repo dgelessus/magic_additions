@@ -75,7 +75,13 @@
 >>>0 use plasma_prp
 
 0 name plasma_prp_live_check
->4 ulelong ^0x80000000
+# Special case for the MOUL version of Veelay Tsahvahn,
+# which was accidentally assigned the sequence prefix 40004 (0x9c44),
+# which is past the highest safe MOUL sequence prefix
+# (32767, or 0x7fff, the last positive sequence prefix number).
+# So we extend the range of recognized "positive" MOUL sequence prefixes into the negative range,
+# up to 0x9fff.
+>4 ulelong <0xa0000000
 >>0 use plasma_prp
 >4 ulelong &0xff000000
 >>6 ubyte <7
