@@ -109,13 +109,219 @@
 >>>>4 use plasma_prp_location
 
 # The encoding of the location field is very complex (see above),
-# so we only recognize a couple of known special values,
-# and otherwise just print out the raw value in hex.
+# so we can't properly decode it into sequence prefix and page numbers
+# and instead only detect certain fixed values and ranges.
+# We recognize a couple of known special values
+# and all MOUL ages so far.
+# CC ages are not fully handled yet and may give wrong names.
 0 name plasma_prp_location
 # INVALID and VIRTUAL come from libHSPlasma PRP/KeyedObject/plLocation.cpp.
 # Not sure if these have any meaning outside of libHSPlasma or can even appear in PRPs on disk.
 >0 ulelong 0xffffffff \b, location state INVALID
 >0 ulelong 0 \b, location state VIRTUAL
+# Here comes a long list of known ages.
+# This information is mostly based on the OpenUru MOULa sequence prefix list:
+# https://wiki.openuru.org/index.php?title=Myst_Online_Uru_Live_Again_Sequence_Prefix_List
+# The Gehn renumbered fan prefixes are taken from Gehn's Plasma fork:
+# https://github.com/GehnShard/Plasma/tree/HEAD/Scripts/dat
+# Eventually the Guild of Writers Uru CC sequence prefix list should also be incorporated:
+# https://www.guildofwriters.org/wiki/Uru:CC_Sequence_Prefixes
+#### Global system "ages" ####
+# Sequence prefix -6
+>0 ulelong >0xff060000
+>>0 ulelong <0xff070001 \b, age GlobalAvatars
+# Sequence prefix -5
+>0 ulelong >0xff050000
+>>0 ulelong <0xff060001 \b, age GlobalClothing
+# Sequence prefix -4
+>0 ulelong >0xff040000
+>>0 ulelong <0xff050001 \b, age GlobalMarkers
+# Sequence prefix -3
+>0 ulelong >0xff030000
+>>0 ulelong <0xff040001 \b, age CustomAvatars
+# Sequence prefix -2
+>0 ulelong >0xff020000
+>>0 ulelong <0xff030001 \b, age GUI
+# Sequence prefix -1
+>0 ulelong >0xff010000
+>>0 ulelong <0xff020001 \b, age GlobalAnimations
+#### Cyan ages ####
+# Sequence prefix 1
+>0 ulelong >0x10020
+>>0 ulelong <0x20021 \b, age Garden
+# Sequence prefix 2
+>0 ulelong >0x20020
+>>0 ulelong <0x30021 \b, age Garrison
+# Sequence prefix 3
+>0 ulelong >0x30020
+>>0 ulelong <0x40021 \b, age Neighborhood
+# Sequence prefix 4
+>0 ulelong >0x40020
+>>0 ulelong <0x50021 \b, age AvatarCustomization
+# Sequence prefix 5
+>0 ulelong >0x50020
+>>0 ulelong <0x60021 \b, age spyroom
+# Sequence prefix 6
+>0 ulelong >0x60020
+>>0 ulelong <0x70021 \b, age city
+# Sequence prefix 7
+>0 ulelong >0x70020
+>>0 ulelong <0x80021 \b, age Cleft
+# Sequence prefix 9
+>0 ulelong >0x90020
+>>0 ulelong <0xa0021 \b, age Descent
+# Sequence prefix 10
+>0 ulelong >0xa0020
+>>0 ulelong <0xb0021 \b, age Neighborhood02
+# Sequence prefix 11
+>0 ulelong >0xb0020
+>>0 ulelong <0xc0021 \b, age Teledahn
+# Sequence prefix 12
+>0 ulelong >0xc0020
+>>0 ulelong <0xd0021 \b, age EderTsogal
+# Sequence prefix 13
+>0 ulelong >0xd0020
+>>0 ulelong <0xe0021 \b, age Personal
+# Sequence prefix 14
+>0 ulelong >0xe0020
+>>0 ulelong <0xf0021 \b, age BaronCityOffice
+# Sequence prefix 15
+>0 ulelong >0xf0020
+>>0 ulelong <0x100021 \b, age StartUp
+# Sequence prefix 16
+>0 ulelong >0x100020
+>>0 ulelong <0x110021 \b, age Nexus
+# Sequence prefix 19
+>0 ulelong >0x130020
+>>0 ulelong <0x140021 \b, age EderDelin
+# Sequence prefix 21
+>0 ulelong >0x150020
+>>0 ulelong <0x160021 \b, age Ercana
+# Sequence prefix 22
+>0 ulelong >0x160020
+>>0 ulelong <0x170021 \b, age Kadish
+# Sequence prefix 24
+>0 ulelong >0x180020
+>>0 ulelong <0x190021 \b, age Gira
+# Sequence prefix 25
+>0 ulelong >0x190020
+>>0 ulelong <0x1a0021 \b, age BahroCave
+# Sequence prefix 27
+>0 ulelong >0x1b0020
+>>0 ulelong <0x1c0021 \b, age Negilahn
+# Sequence prefix 28
+>0 ulelong >0x1c0020
+>>0 ulelong <0x1d0021 \b, age Myst
+# Sequence prefix 29
+>0 ulelong >0x1d0020
+>>0 ulelong <0x1e0021 \b, age Tetsonot
+# Sequence prefix 30
+>0 ulelong >0x1e0020
+>>0 ulelong <0x1f0021 \b, age Dereno
+# Sequence prefix 31
+>0 ulelong >0x1f0020
+>>0 ulelong <0x200021 \b, age Payiferen
+# Sequence prefix 32
+>0 ulelong >0x200020
+>>0 ulelong <0x210021 \b, age PelletBahroCave
+# Sequence prefix 34
+>0 ulelong >0x220020
+>>0 ulelong <0x230021 \b, age LiveBahroCaves
+# Sequence prefix 35
+>0 ulelong >0x230020
+>>0 ulelong <0x240021 \b, age GreatTreePub
+# Sequence prefix 36
+>0 ulelong >0x240020
+>>0 ulelong <0x250021 \b, age ErcanaCitySilo
+# Sequence prefix 38
+>0 ulelong >0x260020
+>>0 ulelong <0x270021 \b, age Ahnonay
+# Sequence prefix 39
+>0 ulelong >0x270020
+>>0 ulelong <0x280021 \b, age GreatZero
+# Sequence prefix 41
+>0 ulelong >0x290020
+>>0 ulelong <0x2a0021 \b, age Kveer
+# Sequence prefix 42
+>0 ulelong >0x2a0020
+>>0 ulelong <0x2b0021 \b, age Minkata
+# Sequence prefix 43
+>0 ulelong >0x2b0020
+>>0 ulelong <0x2c0021 \b, age Jalak
+# Sequence prefix 44
+>0 ulelong >0x2c0020
+>>0 ulelong <0x2d0021 \b, age AhnonayCathedral
+# Sequence prefix 45
+>0 ulelong >0x2d0020
+>>0 ulelong <0x2e0021 \b, age GuildPub-Writers
+# Sequence prefix 46
+>0 ulelong >0x2e0020
+>>0 ulelong <0x2f0021 \b, age GuildPub-Maintainers
+# Sequence prefix 47
+>0 ulelong >0x2f0020
+>>0 ulelong <0x300021 \b, age GuildPub-Cartographers
+# Sequence prefix 48
+>0 ulelong >0x300020
+>>0 ulelong <0x310021 \b, age GuildPub-Greeters
+# Sequence prefix 49
+>0 ulelong >0x310020
+>>0 ulelong <0x320021 \b, age GuildPub-Messengers
+# Sequence prefix 50
+>0 ulelong >0x320020
+>>0 ulelong <0x330021 \b, age philRelto
+#### Fan ages in Gehn "clean" renumbering ####
+# Sequence prefix 200
+>0 ulelong >0xc80020
+>>0 ulelong <0xc90021 \b, age Vothol
+# Sequence prefix 201
+>0 ulelong >0xc90020
+>>0 ulelong <0xca0021 \b, age trebivdil
+# Sequence prefix 202
+>0 ulelong >0xca0020
+>>0 ulelong <0xcb0021 \b, age GoMePubNew
+# Sequence prefix 203
+>0 ulelong >0xcb0020
+>>0 ulelong <0xcc0021 \b, age FehnirHouse
+# Sequence prefix 204
+>0 ulelong >0xcc0020
+>>0 ulelong <0xcd0021 \b, age ChisoPreniv
+# Sequence prefix 205
+>0 ulelong >0xcd0020
+>>0 ulelong <0xce0021 \b, age VeeTsah
+#### Fan ages in non-Gehn numbering ####
+# Sequence prefix 481
+>0 ulelong >0x1e10020
+>>0 ulelong <0x1e20021 \b, age Elonin
+# Sequence prefix 1234
+>0 ulelong >0x4d20020
+>>0 ulelong <0x4d30021 \b, age GoMePubNew
+# Sequence prefix 1236
+>0 ulelong >0x4d40020
+>>0 ulelong <0x4d50021 \b, age ChisoPreniv
+# Sequence prefix 1240
+>0 ulelong >0x4d80020
+>>0 ulelong <0x4d90021 \b, age Vothol
+# Sequence prefix 5201
+>0 ulelong >0x14510020
+>>0 ulelong <0x14520021 \b, age Serene
+# Sequence prefix 7243
+>0 ulelong >0x1c4b0020
+>>0 ulelong <0x1c4c0021 \b, age DescentMystV
+# Sequence prefix 8501
+>0 ulelong >0x21350020
+>>0 ulelong <0x21360021 \b, age cityofdimensions
+# Sequence prefix 10228
+>0 ulelong >0x27f40020
+>>0 ulelong <0x27f50021 \b, age trebivdil
+# Sequence prefix 10263
+>0 ulelong >0x28170020
+>>0 ulelong <0x28180021 \b, age Tiam
+# Sequence prefix 40004
+>0 ulelong >0x9c440020
+>>0 ulelong <0x9c450021 \b, age VeeTsah
+# Finally, always show the raw location value in hex.
+# If the location was not recognized as any of the ages/values listed above,
+# this raw hex value is the only output.
 >0 ulelong x \b, location 0x%x
 
 # Output format of libHSPlasma's PrpPack tool.
