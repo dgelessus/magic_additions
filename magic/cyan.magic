@@ -401,6 +401,18 @@
 >>256 ubyte x \b, size %u
 >>>257 ulelong &0x1 \b, bold
 >>>257 ulelong &0x2 \b, italic
+# The calculation below only works for 8 bpp
+# (the only value used in practice).
+>>>273 ubyte !8 \b, %u bits per pixel
+>>>273 ubyte 8
+# Skip over the bitmap data (width * height).
+# Don't output the "first character" field for now.
+>>>>&(261.l*(4)) uleshort x
+>>>>>&0 ulelong x \b, %u chars
+# Go back to the "first character" field
+# and output it if it's non-zero
+# (although in practice it's always zero).
+>>>>>>&-6 uleshort !0 \b, first char U+%04X
 
 # Plasma resource data,
 # as found in MOUL's resource.dat and Myst V's dat/Cursors.dat
